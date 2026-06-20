@@ -238,12 +238,18 @@ export const REDEEM_ITEMS = [
 
 export const NAV_ITEMS = [
   { href: "/", label: "儀表板", emoji: "🏠" },
+  { href: "/calendar", label: "行事曆", emoji: "📅" },
   { href: "/learning", label: "學習中心", emoji: "📖" },
   { href: "/training", label: "Agent 訓練所", emoji: "🎓" },
   { href: "/tasks", label: "任務中心", emoji: "💼" },
   { href: "/skills", label: "技能市場", emoji: "⚡" },
+  { href: "/resources", label: "資源中心", emoji: "🗂️" },
+  { href: "/materials", label: "補充教材", emoji: "📄" },
+  { href: "/events", label: "活動報名", emoji: "🎪" },
   { href: "/community", label: "交流中心", emoji: "💬" },
+  { href: "/showcase", label: "成果展示", emoji: "🏆" },
   { href: "/points", label: "我的點數", emoji: "🪙" },
   { href: "/redeem", label: "兌換中心", emoji: "🎁" },
   { href: "/messages", label: "訊息中心", emoji: "📩" },
+  { href: "/support", label: "服務中心", emoji: "🛎️" },
 ];
