@@ -13,7 +13,7 @@ export default function Sidebar() {
         </div>
         <div className="text-xs text-white/40 mt-1">AI 特工訓練學校</div>
       </div>
-      <nav className="flex-1 space-y-1">
+      <nav className="flex-1 space-y-0.5 overflow-y-auto pr-1">
         {NAV_ITEMS.map((item) => {
           const active = path === item.href;
           return (
