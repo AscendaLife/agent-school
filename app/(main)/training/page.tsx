@@ -12,8 +12,46 @@ export default function TrainingPage() {
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [generated, setGenerated] = useState(false);
   const [isNew, setIsNew] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   const categories = [...new Set(SKILLS.map(s => s.category))];
+
+  const selectedSkillObjs = selectedSkills.map(id => SKILLS.find(s => s.id === id)!).filter(Boolean);
+
+  const copyPrompt = async () => {
+    try {
+      await navigator.clipboard.writeText(mockPrompt);
+    } catch {
+      // 降級：execCommand（非安全環境 / 無焦點時）
+      const ta = document.createElement("textarea");
+      ta.value = mockPrompt;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch { /* 仍失敗則放棄 */ }
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const downloadConfig = () => {
+    const config = {
+      agent: { name, purpose, personality: personality || "親切專業" },
+      skills: selectedSkillObjs.map(s => ({ id: s.id, name: s.name, category: s.category })),
+      systemPrompt: mockPrompt,
+      generatedBy: "Agent School 訓練所",
+      version: "1.0",
+    };
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name || "my-agent"}-config.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const toggleSkill = (id: string) => {
     setSelectedSkills(prev => prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]);
@@ -163,18 +201,65 @@ ${selectedSkills.map(id => SKILLS.find(s => s.id === id)?.name).join("、") || "
                 <div className="text-green-400 font-semibold mb-1">✅ 訓練完成！你的 Agent 已準備就緒</div>
                 <div className="text-xs text-white/40">以下是生成的 System Prompt，可直接貼入 Claude / ChatGPT / Dify</div>
               </div>
+              {/* System Prompt */}
               <div className="rounded-xl bg-white/[0.03] border border-white/10 p-4">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs text-white/40 font-medium">🤖 生成的 System Prompt</span>
-                  <button className="text-xs text-purple-400 hover:text-purple-300">複製</button>
+                  <button onClick={copyPrompt} className={`text-xs transition-all ${copied ? "text-green-400" : "text-purple-400 hover:text-purple-300"}`}>
+                    {copied ? "✓ 已複製" : "📋 複製"}
+                  </button>
                 </div>
                 <pre className="text-xs text-white/60 whitespace-pre-wrap leading-relaxed font-mono">{mockPrompt}</pre>
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                <button className="py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 text-sm transition-all">📥 下載配置</button>
-                <button className="py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 text-sm transition-all">🔗 生成工作流</button>
-                <button className="py-2.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 text-sm transition-all">🏆 領取證書</button>
+
+              {/* Skill Workflow 視覺化 */}
+              <div className="rounded-xl bg-white/[0.03] border border-white/10 p-4">
+                <div className="text-xs text-white/40 font-medium mb-4">🔗 封裝後的技能工作流</div>
+                <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                  <div className="flex-shrink-0 flex flex-col items-center gap-1">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-lg">📥</div>
+                    <span className="text-xs text-white/40">輸入</span>
+                  </div>
+                  <div className="text-white/20 flex-shrink-0">→</div>
+                  <div className="flex-shrink-0 flex flex-col items-center gap-1">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-lg">🧠</div>
+                    <span className="text-xs text-white/40">{name || "Agent"}</span>
+                  </div>
+                  <div className="text-white/20 flex-shrink-0">→</div>
+                  {selectedSkillObjs.map((s) => (
+                    <div key={s.id} className="flex items-center gap-2 flex-shrink-0">
+                      <div className="flex flex-col items-center gap-1">
+                        <div className="w-12 h-12 rounded-xl bg-white/[0.06] border border-purple-500/30 flex items-center justify-center text-lg">{s.emoji}</div>
+                        <span className="text-xs text-white/40 max-w-[64px] truncate">{s.name}</span>
+                      </div>
+                      <div className="text-white/20 flex-shrink-0">→</div>
+                    </div>
+                  ))}
+                  <div className="flex-shrink-0 flex flex-col items-center gap-1">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-lg">✅</div>
+                    <span className="text-xs text-white/40">產出</span>
+                  </div>
+                </div>
+                <div className="mt-3 text-xs text-white/30 leading-relaxed border-t border-white/5 pt-3">
+                  此工作流已可匯出為 Make.com / n8n 藍圖，或封裝為獨立 Skill 上架
+                  <a href="/market" className="text-purple-400 hover:text-purple-300 ml-1">技能市場 →</a>
+                </div>
               </div>
+
+              {/* Actions */}
+              <div className="grid grid-cols-3 gap-3">
+                <button onClick={downloadConfig} className="py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 text-sm transition-all">📥 下載配置 JSON</button>
+                <a href="/cert" className="py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 text-sm transition-all text-center">🏅 去考認證</a>
+                <a href="/market" className="py-2.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 text-sm transition-all text-center">🛒 上架賺錢</a>
+              </div>
+
+              {/* Train another */}
+              <button
+                onClick={() => { setStep(0); setGenerated(false); setName(""); setPurpose(""); setPersonality(""); setSelectedSkills([]); }}
+                className="w-full py-2.5 rounded-lg border border-dashed border-white/15 text-white/40 hover:text-white/70 hover:border-white/30 text-sm transition-all"
+              >
+                ✨ 再訓練一隻 Agent
+              </button>
             </div>
           )}
         </div>

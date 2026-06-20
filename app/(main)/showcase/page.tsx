@@ -35,7 +35,7 @@ export default function ShowcasePage() {
       </div>
       <div className="rounded-xl bg-gradient-to-br from-purple-900/30 to-pink-900/20 border border-purple-500/20 p-5 text-center">
         <div className="text-white/60 mb-2">完成訓練後，歡迎展示你的 Agent！</div>
-        <button className="text-sm px-6 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium transition-all">🎓 去訓練我的 Agent</button>
+        <a href="/training" className="inline-block text-sm px-6 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium transition-all">🎓 去訓練我的 Agent</a>
       </div>
     </div>
   );
