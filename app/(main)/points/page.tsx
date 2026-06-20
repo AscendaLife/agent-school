@@ -5,27 +5,30 @@ export default function PointsPage() {
     { type: "任務積分", desc: "電商客服 Agent 任務", value: "+50", time: "2026/6/20" },
   ];
   return (
-    <div className="max-w-2xl space-y-6">
-      <div><h1 className="text-2xl font-bold text-white">🪙 我的點數</h1><p className="text-white/40 text-sm mt-1">點數來自課程、任務；收益為現金獎勵</p></div>
-      <div className="grid grid-cols-3 gap-4">
+    <div className="max-w-2xl space-y-6 animate-fade-up">
+      <div>
+        <h1 className="text-2xl font-bold text-white tracking-tight">🪙 我的<span className="text-gradient">點數</span></h1>
+        <p className="text-white/40 text-sm mt-1.5">點數來自課程、任務；收益為現金獎勵</p>
+      </div>
+      <div className="grid grid-cols-3 gap-4 stagger">
         {[["學習點數", "350", "可兌換好禮"], ["任務積分", "50", "接案累積"], ["累計收益", "NT$8,000", "已入帳"]].map(([label, val, sub]) => (
-          <div key={label} className="rounded-xl bg-white/[0.04] border border-white/10 p-5 text-center">
+          <div key={label} className="card card-interactive p-5 text-center">
             <div className="text-2xl font-bold text-white">{val}</div>
-            <div className="text-sm text-white/60 mt-1">{label}</div>
+            <div className="text-sm text-white/60 mt-1 font-medium">{label}</div>
             <div className="text-xs text-white/30 mt-0.5">{sub}</div>
           </div>
         ))}
       </div>
-      <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+      <div className="gradient-ring p-6">
         <h2 className="font-semibold text-white mb-4">點數紀錄</h2>
-        <div className="space-y-3">
+        <div className="space-y-3 stagger">
           {records.map((r, i) => (
-            <div key={i} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
+            <div key={i} className="card card-interactive flex items-center justify-between p-3.5">
               <div>
-                <div className="text-sm text-white">{r.desc}</div>
-                <div className="text-xs text-white/30">{r.type} · {r.time}</div>
+                <div className="text-sm text-white font-medium">{r.desc}</div>
+                <div className="text-xs text-white/30 mt-0.5">{r.type} · {r.time}</div>
               </div>
-              <span className="text-sm font-semibold text-green-400">{r.value}</span>
+              <span className="text-sm font-bold text-green-400">{r.value}</span>
             </div>
           ))}
         </div>

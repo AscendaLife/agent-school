@@ -66,33 +66,38 @@ export default function LearningPage() {
   const [expandedLv, setExpandedLv] = useState<number|null>(1);
 
   return (
-    <div className="space-y-6 max-w-5xl">
+    <div className="space-y-6 max-w-5xl mx-auto animate-fade-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">📖 學習中心</h1>
-        <p className="text-white/40 text-sm mt-1">真人直播 × 錄播回看 · 從孵化到畢業，五階段完整培訓</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">📖 <span className="text-gradient">學習中心</span></h1>
+        <p className="text-white/40 text-sm mt-1.5">真人直播 × 錄播回看 · 從孵化到畢業，五階段完整培訓</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-white/[0.03] rounded-xl p-1 border border-white/10 w-fit">
+      <div className="glass flex gap-1 rounded-xl p-1 w-fit">
         {([["novice","🥚 新手村"],["courses","📚 課程總覽"],["mine","🎒 我的課程"],["quiz","📝 測驗與成績"]] as const).map(([t, label]) => (
-          <button key={t} onClick={() => setTab(t)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab===t ? "bg-purple-600 text-white" : "text-white/40 hover:text-white"}`}>{label}</button>
+          <button key={t} onClick={() => setTab(t)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab===t ? "btn-primary" : "text-white/40 hover:text-white"}`}>{label}</button>
         ))}
       </div>
 
       {/* 新手村 */}
       {tab === "novice" && (
         <div className="space-y-6">
-          <div className="rounded-xl bg-gradient-to-br from-purple-900/40 to-pink-900/20 border border-purple-500/20 p-5">
-            <h2 className="font-bold text-white text-lg mb-1">🎓 Agent 修煉之路</h2>
-            <p className="text-white/40 text-sm">從孵化期到畢業期，五大境界。每境界有對應「概念」與「工具」，逐一突破，Agent 功力自然大增。</p>
+          <div className="gradient-ring overflow-hidden">
+            <div className="relative p-6">
+              <div className="absolute -top-14 -right-8 w-48 h-48 rounded-full bg-purple-600/20 blur-3xl pointer-events-none" />
+              <div className="relative">
+                <h2 className="font-bold text-white text-lg mb-1">🎓 Agent <span className="text-gradient">修煉之路</span></h2>
+                <p className="text-white/45 text-sm">從孵化期到畢業期，五大境界。每境界有對應「概念」與「工具」，逐一突破，Agent 功力自然大增。</p>
+              </div>
+            </div>
           </div>
 
           {/* Level ladder */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 stagger">
             {CONCEPTS.map((c, i) => (
               <div key={c.lv} className="flex items-center gap-2 flex-shrink-0">
                 <button onClick={() => setExpandedLv(expandedLv === c.lv ? null : c.lv)}
-                  className={`flex flex-col items-center px-4 py-3 rounded-xl border transition-all ${expandedLv===c.lv ? "border-purple-500/50 bg-purple-500/10" : "border-white/10 bg-white/[0.04] hover:border-white/20"}`}>
+                  className={`card card-interactive flex flex-col items-center px-4 py-3 ${expandedLv===c.lv ? "border-purple-500/50 bg-purple-500/10 glow-soft" : ""}`}>
                   <span className="text-2xl">{COURSES[i]?.emoji}</span>
                   <span className="text-xs text-white/60 mt-1">Lv.{c.lv}</span>
                   <span className="text-xs text-white font-medium">{c.name}</span>
@@ -109,10 +114,10 @@ export default function LearningPage() {
               <h3 className="font-semibold text-white mb-3">
                 {COURSES[expandedLv-1]?.emoji} Lv.{expandedLv} {CONCEPTS[expandedLv-1]?.name}期 — 概念圖鑑
               </h3>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 stagger">
                 {CONCEPTS[expandedLv-1]?.items.map((item, i) => (
-                  <div key={i} className="p-3 rounded-xl bg-white/[0.04] border border-white/5 hover:border-purple-500/20 transition-all">
-                    <div className="font-medium text-white text-sm mb-1">{item.name}</div>
+                  <div key={i} className="card card-interactive p-3.5">
+                    <div className="font-medium text-white text-sm mb-1.5">{item.name}</div>
                     <span className={`text-xs px-2 py-0.5 rounded-full border ${TYPE_COLOR[item.type] || "bg-white/5 text-white/40"}`}>{item.type}</span>
                   </div>
                 ))}
@@ -126,11 +131,11 @@ export default function LearningPage() {
       {tab === "courses" && (
         <div className="space-y-5">
           {/* Instructors */}
-          <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+          <div className="card p-5">
             <h2 className="font-semibold text-white mb-4">👨‍🏫 師資陣容</h2>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger">
               {INSTRUCTORS.map((ins) => (
-                <div key={ins.id} className="text-center p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                <div key={ins.id} className="card card-interactive text-center p-3.5">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm mx-auto mb-2">{ins.avatar}</div>
                   <div className="text-sm font-semibold text-white">{ins.name}</div>
                   <div className="text-xs text-purple-400">{ins.title}</div>
@@ -140,15 +145,16 @@ export default function LearningPage() {
             </div>
           </div>
 
+          <div className="space-y-5 stagger">
           {COURSES.map((c) => {
             const ins = INSTRUCTORS.find(i => i.id === c.instructor)!;
             return (
-              <div key={c.id} className="rounded-xl bg-white/[0.04] border border-white/10 overflow-hidden">
+              <div key={c.id} className="card card-interactive overflow-hidden">
                 <div className={`h-1.5 bg-gradient-to-r ${c.color}`} />
                 <div className="p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <span className="text-4xl">{c.emoji}</span>
+                      <span className="text-4xl animate-float">{c.emoji}</span>
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-white/30">Lv.{c.level}</span>
@@ -162,17 +168,17 @@ export default function LearningPage() {
                     <div className="text-right flex-shrink-0">
                       <div className="text-xl font-bold text-white">NT$ {c.price.toLocaleString()}</div>
                       <div className="text-xs text-white/30">{c.modules} 堂 · 真人直播</div>
-                      <button className="mt-2 px-4 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium transition-all">立即報名</button>
+                      <button className="btn-primary mt-2 px-4 py-1.5 rounded-xl text-white text-xs font-semibold">立即報名</button>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/5">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white">{ins.avatar}</div>
                     <span className="text-xs text-white/40">主講：<span className="text-white/60">{ins.name}</span> · {ins.title}</span>
                   </div>
-                  <div className="mt-4 grid grid-cols-2 gap-2">
+                  <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
                     {c.schedule.map((s, i) => (
-                      <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.03] border border-white/5 text-xs">
-                        <span className="text-red-400 animate-pulse">🔴</span>
+                      <div key={i} className="glass flex items-center gap-2 p-2.5 rounded-lg text-xs">
+                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-red-400 animate-pulse-ring" />
                         <span className="text-white/50">{s.date}</span>
                         <span className="text-white/30">{s.time}</span>
                         <span className="text-white/40 truncate">{s.topic}</span>
@@ -197,14 +203,15 @@ export default function LearningPage() {
               </div>
             );
           })}
+          </div>
         </div>
       )}
 
       {/* 我的課程 */}
       {tab === "mine" && (
-        <div className="space-y-4">
+        <div className="space-y-4 stagger">
           {ENROLLED.map((e, i) => (
-            <div key={i} className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+            <div key={i} className="card card-interactive p-5">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-semibold text-white">{e.title}</div>
@@ -220,8 +227,8 @@ export default function LearningPage() {
               </div>
             </div>
           ))}
-          <div className="rounded-xl bg-white/[0.03] border border-dashed border-white/10 p-8 text-center">
-            <div className="text-3xl mb-2">📚</div>
+          <div className="card border-dashed p-8 text-center">
+            <div className="text-3xl mb-2 animate-float">📚</div>
             <div className="text-white/30 text-sm">想報名更多課程？</div>
             <button onClick={() => setTab("courses")} className="mt-3 text-xs px-4 py-2 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">查看全部課程</button>
           </div>
@@ -231,16 +238,17 @@ export default function LearningPage() {
       {/* 測驗與成績 */}
       {tab === "quiz" && (
         <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-4 mb-2">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-2 stagger">
             {[["課後小測", "隨堂測驗，完成可得積分"],["等級認證", "通過可取得官方等級證書"],["架構師認證", "最高級別，業界認可資格"]].map(([t, d]) => (
-              <div key={t} className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
+              <div key={t} className="card card-interactive p-4 text-center">
                 <div className="font-semibold text-white text-sm">{t}</div>
                 <div className="text-xs text-white/30 mt-1">{d}</div>
               </div>
             ))}
           </div>
+          <div className="space-y-4 stagger">
           {QUIZZES.map((q, i) => (
-            <div key={i} className="flex items-center justify-between p-5 rounded-xl bg-white/[0.04] border border-white/10">
+            <div key={i} className="card card-interactive flex items-center justify-between p-5">
               <div>
                 <div className="font-semibold text-white">{q.title}</div>
                 <div className="text-xs text-white/30 mt-1">{q.course} · {q.questions} 題 · 及格 {q.passing} 分 · 限時 {q.time} 分鐘</div>
@@ -253,11 +261,12 @@ export default function LearningPage() {
                   "bg-white/5 text-white/30 border-white/10"
                 }`}>{q.status}</span>
                 {q.status === "可作答" && (
-                  <button className="px-4 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium transition-all">開始作答</button>
+                  <button className="btn-primary px-4 py-1.5 rounded-xl text-white text-xs font-semibold">開始作答</button>
                 )}
               </div>
             </div>
           ))}
+          </div>
         </div>
       )}
     </div>

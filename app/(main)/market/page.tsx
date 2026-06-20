@@ -53,39 +53,39 @@ export default function MarketPage() {
   const [cat, setCat] = useState("全部");
 
   return (
-    <div className="space-y-6 max-w-5xl">
+    <div className="space-y-6 max-w-5xl animate-fade-up">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">🛒 Agent 市場</h1>
-          <p className="text-white/40 text-sm mt-1">買/租其他學員訓練的 Agent · 上架你的 Agent 賺分潤 70%</p>
+          <h1 className="text-2xl font-bold text-white tracking-tight">🛒 <span className="text-gradient">Agent 市場</span></h1>
+          <p className="text-white/40 text-sm mt-1.5">買/租其他學員訓練的 Agent · 上架你的 Agent 賺分潤 70%</p>
         </div>
-        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold hover:opacity-90 transition-all">
+        <button className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold">
           + 上架我的 Agent
         </button>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger">
         {[
           { label: "上架 Agent 數", value: "247", sub: "本月 +38 隻", color: "text-purple-400" },
           { label: "本月成交金額", value: "NT$1.2M", sub: "學員互相買賣", color: "text-green-400" },
           { label: "平均評分", value: "4.8 ★", sub: "買家滿意度", color: "text-yellow-400" },
           { label: "認證師上架率", value: "78%", sub: "持證者轉化率高", color: "text-blue-400" },
         ].map((s) => (
-          <div key={s.label} className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
-            <div className={`text-xl font-bold ${s.color}`}>{s.value}</div>
-            <div className="text-xs text-white font-medium mt-0.5">{s.label}</div>
-            <div className="text-xs text-white/30 mt-0.5">{s.sub}</div>
+          <div key={s.label} className="card card-interactive p-5 text-center">
+            <div className={`text-2xl font-bold ${s.color}`}>{s.value}</div>
+            <div className="text-xs text-white/50 font-medium mt-1">{s.label}</div>
+            <div className="text-[11px] text-white/30 mt-0.5">{s.sub}</div>
           </div>
         ))}
       </div>
 
       {/* Filter bar */}
       <div className="flex items-center gap-3">
-        <div className="flex gap-1 bg-white/[0.03] rounded-xl p-1 border border-white/10">
+        <div className="flex gap-1 glass rounded-xl p-1">
           {(["rent", "buy"] as const).map(m => (
             <button key={m} onClick={() => setMode(m)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${mode === m ? "bg-purple-600 text-white" : "text-white/40 hover:text-white"}`}>
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${mode === m ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-soft" : "text-white/40 hover:text-white"}`}>
               {m === "rent" ? "月租模式" : "買斷模式"}
             </button>
           ))}
@@ -93,7 +93,7 @@ export default function MarketPage() {
         <div className="flex gap-1 flex-wrap">
           {CATEGORIES.map(c => (
             <button key={c} onClick={() => setCat(c)}
-              className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${cat === c ? "border-purple-500/50 bg-purple-500/10 text-purple-300" : "border-white/10 text-white/40 hover:text-white"}`}>
+              className={`px-3 py-1.5 rounded-full text-xs border transition-all ${cat === c ? "border-purple-500/50 bg-purple-500/10 text-purple-300" : "border-white/10 text-white/40 hover:text-white"}`}>
               {c}
             </button>
           ))}
@@ -101,9 +101,9 @@ export default function MarketPage() {
       </div>
 
       {/* Agent grid */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 stagger">
         {AGENTS.map((a) => (
-          <div key={a.id} className="rounded-xl bg-white/[0.04] border border-white/10 hover:border-purple-500/30 transition-all p-5">
+          <div key={a.id} className="card card-interactive p-5">
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-900 to-pink-900 border border-purple-500/20 flex items-center justify-center text-2xl">
@@ -114,14 +114,14 @@ export default function MarketPage() {
                   <div className="text-xs text-white/40 mt-0.5">by {a.owner} <span className="ml-1">{a.ownerLv}</span></div>
                 </div>
               </div>
-              <span className={`text-xs px-2 py-1 rounded-full ${a.tagColor}`}>{a.tag}</span>
+              <span className={`text-xs px-2.5 py-1 rounded-full ${a.tagColor}`}>{a.tag}</span>
             </div>
 
             <p className="text-sm text-white/50 leading-relaxed mb-3">{a.desc}</p>
 
             <div className="flex flex-wrap gap-1 mb-4">
               {a.skills.map(s => (
-                <span key={s} className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-white/50 border border-white/5">{s}</span>
+                <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-white/[0.06] text-white/60 border border-white/10">{s}</span>
               ))}
             </div>
 
@@ -138,7 +138,7 @@ export default function MarketPage() {
                   </div>
                   <div className="text-xs text-white/30">{mode === "rent" ? "/ 月" : "買斷"}</div>
                 </div>
-                <button className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-all">
+                <button className="btn-primary px-4 py-2 rounded-xl text-xs font-semibold">
                   {mode === "rent" ? "立即租用" : "立即購買"}
                 </button>
               </div>
@@ -148,13 +148,18 @@ export default function MarketPage() {
       </div>
 
       {/* Sell CTA */}
-      <div className="rounded-xl bg-gradient-to-br from-purple-900/40 to-pink-900/20 border border-purple-500/20 p-6 text-center">
-        <div className="text-2xl mb-2">💰</div>
-        <div className="font-bold text-white text-lg mb-1">你的 Agent 也能賺錢</div>
-        <div className="text-white/40 text-sm mb-4">上架後每筆交易你拿 <span className="text-green-400 font-bold">70%</span>，學校抽 30%。頂尖 Agent 月收 NT$3–8 萬。</div>
-        <div className="flex justify-center gap-3">
-          <button className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold transition-all">前往訓練 Agent</button>
-          <button className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm transition-all">查看上架教學</button>
+      <div className="gradient-ring overflow-hidden">
+        <div className="relative p-7 text-center">
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-72 h-56 rounded-full bg-purple-600/20 blur-3xl pointer-events-none" />
+          <div className="relative">
+            <div className="text-3xl mb-2 animate-float">💰</div>
+            <div className="font-bold text-white text-lg mb-1">你的 Agent 也能賺錢</div>
+            <div className="text-white/45 text-sm mb-4">上架後每筆交易你拿 <span className="text-green-400 font-bold">70%</span>，學校抽 30%。頂尖 Agent 月收 NT$3–8 萬。</div>
+            <div className="flex justify-center gap-3">
+              <button className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold">前往訓練 Agent</button>
+              <button className="px-5 py-2.5 rounded-xl text-sm font-medium bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 transition-all">查看上架教學</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

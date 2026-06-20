@@ -36,19 +36,17 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f1a] flex items-center justify-center p-4">
-      <div className="w-full max-w-sm">
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-sm animate-fade-up">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="text-5xl mb-3">🎓</div>
-          <div className="text-2xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Agent School
-          </div>
-          <div className="text-white/40 text-sm mt-1">AI 特工訓練學校</div>
+          <div className="text-6xl mb-3 animate-float inline-block">🎓</div>
+          <div className="text-3xl font-black text-gradient">Agent School</div>
+          <div className="text-white/40 text-sm mt-1.5">AI 特工訓練學校</div>
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl bg-white/[0.05] border border-white/10 p-8 backdrop-blur">
+        <div className="gradient-ring p-8 glow-soft">
           <div className="text-white font-semibold text-lg mb-6 text-center">學員登入</div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -86,7 +84,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:opacity-40 text-white font-semibold text-sm transition-all mt-2"
+              className="btn-primary w-full py-3 rounded-xl disabled:opacity-40 font-semibold text-sm mt-2"
             >
               {loading ? "登入中…" : "進入訓練學校"}
             </button>

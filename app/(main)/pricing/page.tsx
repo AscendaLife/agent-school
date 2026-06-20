@@ -71,82 +71,122 @@ const FLYWHEEL = [
 
 export default function PricingPage() {
   return (
-    <div className="space-y-10 max-w-5xl">
+    <div className="space-y-10 max-w-5xl mx-auto animate-fade-up">
       <div className="text-center">
-        <h1 className="text-3xl font-black text-white">💎 方案與定價</h1>
-        <p className="text-white/40 mt-2">學費不是成本，是投資。你的 Agent 上市後可以賺回來。</p>
+        <h1 className="text-3xl font-black text-white tracking-tight">💎 <span className="text-gradient">方案與定價</span></h1>
+        <p className="text-white/40 text-sm mt-2">學費不是成本，是投資。你的 Agent 上市後可以賺回來。</p>
       </div>
 
       {/* Flywheel */}
-      <div className="rounded-2xl bg-gradient-to-br from-purple-900/40 to-pink-900/20 border border-purple-500/20 p-6">
-        <div className="text-center mb-6">
-          <div className="font-bold text-white text-lg">🔄 Learn → Train → Earn 飛輪</div>
-          <div className="text-white/40 text-sm mt-1">認證師平均 <span className="text-green-400 font-bold">6 個月</span>內靠市場收入覆蓋學費</div>
-        </div>
-        <div className="flex items-center justify-between gap-2">
-          {FLYWHEEL.map((f, i) => (
-            <div key={f.step} className="flex items-center gap-2 flex-1">
-              <div className="flex flex-col items-center text-center flex-1">
-                <div className="w-12 h-12 rounded-full bg-white/[0.08] border border-white/10 flex items-center justify-center text-2xl mb-2">{f.emoji}</div>
-                <div className="text-xs font-bold text-white">{f.title}</div>
-                <div className="text-xs text-white/30 mt-0.5 leading-relaxed">{f.desc}</div>
+      <div className="gradient-ring overflow-hidden">
+        <div className="relative p-6">
+          <div className="absolute -top-16 -right-10 w-56 h-56 rounded-full bg-purple-600/15 blur-3xl pointer-events-none" />
+          <div className="relative text-center mb-6">
+            <div className="font-bold text-white text-lg">🔄 Learn → Train → <span className="text-gradient">Earn</span> 飛輪</div>
+            <div className="text-white/40 text-sm mt-1">認證師平均 <span className="text-green-400 font-bold">6 個月</span>內靠市場收入覆蓋學費</div>
+          </div>
+          <div className="relative flex items-center justify-between gap-2 stagger">
+            {FLYWHEEL.map((f, i) => (
+              <div key={f.step} className="flex items-center gap-2 flex-1">
+                <div className="flex flex-col items-center text-center flex-1">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/10 border border-white/10 flex items-center justify-center text-2xl mb-2 animate-float">{f.emoji}</div>
+                  <div className="text-xs font-bold text-white">{f.title}</div>
+                  <div className="text-xs text-white/30 mt-0.5 leading-relaxed">{f.desc}</div>
+                </div>
+                {i < FLYWHEEL.length - 1 && <div className="text-purple-500 text-lg flex-shrink-0">→</div>}
               </div>
-              {i < FLYWHEEL.length - 1 && <div className="text-purple-500 text-lg flex-shrink-0">→</div>}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Plans */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger">
         {PLANS.map((p) => (
-          <div key={p.name} className={`relative rounded-2xl bg-gradient-to-br ${p.color} border ${p.border} p-5 flex flex-col`}>
-            {p.tag && (
-              <div className={`absolute -top-3 left-1/2 -translate-x-1/2 text-xs px-3 py-1 rounded-full font-bold whitespace-nowrap ${p.highlight ? "bg-purple-600 text-white" : "bg-yellow-500 text-black"}`}>
-                {p.tag}
-              </div>
-            )}
-            <div className="mb-4 mt-2">
-              <div className="text-white font-bold text-base">{p.name}</div>
-              <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-2xl font-black text-white">
-                  {p.price === 0 ? "免費" : `NT$${p.price.toLocaleString()}`}
-                </span>
-                {p.period && <span className="text-white/30 text-sm">{p.period}</span>}
-              </div>
-            </div>
-
-            <div className="space-y-2 flex-1 mb-5">
-              {p.features.map(f => (
-                <div key={f} className="flex items-start gap-2 text-xs text-white/70">
-                  <span className="text-green-400 mt-0.5 flex-shrink-0">✓</span>{f}
+          p.highlight ? (
+            <div key={p.name} className="gradient-ring glow-soft p-5 flex flex-col relative">
+              {p.tag && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs px-3 py-1 rounded-full font-bold whitespace-nowrap bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+                  {p.tag}
                 </div>
-              ))}
-              {p.notIncluded.map(f => (
-                <div key={f} className="flex items-start gap-2 text-xs text-white/20">
-                  <span className="mt-0.5 flex-shrink-0">✗</span>{f}
+              )}
+              <div className="mb-4 mt-2">
+                <div className="text-white font-bold text-base">{p.name}</div>
+                <div className="flex items-baseline gap-1 mt-1">
+                  <span className="text-2xl font-black text-white">
+                    {p.price === 0 ? "免費" : `NT$${p.price.toLocaleString()}`}
+                  </span>
+                  {p.period && <span className="text-white/30 text-sm">{p.period}</span>}
                 </div>
-              ))}
-            </div>
+              </div>
 
-            <Link href={p.ctaLink}
-              className={`text-center py-2.5 rounded-xl text-sm font-semibold transition-all ${p.highlight ? "bg-purple-600 hover:bg-purple-500 text-white" : "bg-white/10 hover:bg-white/15 text-white"}`}>
-              {p.cta}
-            </Link>
-          </div>
+              <div className="space-y-2 flex-1 mb-5">
+                {p.features.map(f => (
+                  <div key={f} className="flex items-start gap-2 text-xs text-white/70">
+                    <span className="text-green-400 mt-0.5 flex-shrink-0">✓</span>{f}
+                  </div>
+                ))}
+                {p.notIncluded.map(f => (
+                  <div key={f} className="flex items-start gap-2 text-xs text-white/20">
+                    <span className="mt-0.5 flex-shrink-0">✗</span>{f}
+                  </div>
+                ))}
+              </div>
+
+              <Link href={p.ctaLink}
+                className="btn-primary text-center py-2.5 rounded-xl text-sm font-semibold">
+                {p.cta}
+              </Link>
+            </div>
+          ) : (
+            <div key={p.name} className="card card-interactive p-5 flex flex-col relative">
+              {p.tag && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs px-3 py-1 rounded-full font-bold whitespace-nowrap bg-yellow-500 text-black">
+                  {p.tag}
+                </div>
+              )}
+              <div className="mb-4 mt-2">
+                <div className="text-white font-bold text-base">{p.name}</div>
+                <div className="flex items-baseline gap-1 mt-1">
+                  <span className="text-2xl font-black text-white">
+                    {p.price === 0 ? "免費" : `NT$${p.price.toLocaleString()}`}
+                  </span>
+                  {p.period && <span className="text-white/30 text-sm">{p.period}</span>}
+                </div>
+              </div>
+
+              <div className="space-y-2 flex-1 mb-5">
+                {p.features.map(f => (
+                  <div key={f} className="flex items-start gap-2 text-xs text-white/70">
+                    <span className="text-green-400 mt-0.5 flex-shrink-0">✓</span>{f}
+                  </div>
+                ))}
+                {p.notIncluded.map(f => (
+                  <div key={f} className="flex items-start gap-2 text-xs text-white/20">
+                    <span className="mt-0.5 flex-shrink-0">✗</span>{f}
+                  </div>
+                ))}
+              </div>
+
+              <Link href={p.ctaLink}
+                className="text-center py-2.5 rounded-xl text-sm font-semibold transition-all bg-white/[0.06] hover:bg-white/10 text-white border border-white/10">
+                {p.cta}
+              </Link>
+            </div>
+          )
         ))}
       </div>
 
       {/* ROI calculator teaser */}
-      <div className="rounded-xl bg-white/[0.04] border border-white/10 p-6">
+      <div className="card p-6">
         <div className="font-bold text-white text-lg mb-4">📊 學員真實收益案例</div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger">
           {[
             { name: "Trainer_Sarah", plan: "認證師 Pro", months: 4, earned: 68000, note: "電商客服 Agent 月租×142家" },
             { name: "Trainer_Kevin", plan: "學員月費", months: 7, earned: 31000, note: "銷售 Agent 買斷×6家企業" },
             { name: "Trainer_Nova", plan: "認證師 Pro", months: 2, earned: 24000, note: "新聞摘要 Agent 月租×891人" },
           ].map((c) => (
-            <div key={c.name} className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
+            <div key={c.name} className="card card-interactive p-4">
               <div className="font-semibold text-white text-sm">{c.name}</div>
               <div className="text-xs text-purple-300 mt-0.5">{c.plan}</div>
               <div className="text-xl font-black text-green-400 mt-2">NT${c.earned.toLocaleString()}</div>

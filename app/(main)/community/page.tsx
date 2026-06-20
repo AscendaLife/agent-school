@@ -14,31 +14,31 @@ export default function CommunityPage() {
     { user: "Sarah K", avatar: "S", time: "2 天前", channel: "提問求助", content: "請問 Make.com 的 Webhook 如果收不到資料，通常是什麼問題？我試了很多次都是空的 😢", likes: 3, replies: 12 },
   ];
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="max-w-4xl space-y-6 animate-fade-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">💬 交流中心</h1>
-        <p className="text-white/40 text-sm mt-1">和同學分享心得、提問、揪團，一起把 Agent 玩到極致</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">💬 <span className="text-gradient">交流中心</span></h1>
+        <p className="text-white/40 text-sm mt-1.5">和同學分享心得、提問、揪團，一起把 Agent 玩到極致</p>
       </div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-3 stagger">
         {channels.map(c => (
-          <button key={c.name} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/10 hover:border-purple-500/30 text-left transition-all">
-            <span className="text-xl">{c.emoji}</span>
-            <div>
-              <div className="text-sm text-white font-medium">{c.name}</div>
+          <button key={c.name} className="card card-interactive flex items-center gap-3 p-3.5 text-left">
+            <span className="text-xl flex-shrink-0">{c.emoji}</span>
+            <div className="min-w-0">
+              <div className="text-sm text-white font-medium truncate">{c.name}</div>
               <div className="text-xs text-white/30">{c.count} 則貼文</div>
             </div>
           </button>
         ))}
       </div>
-      <div className="space-y-4">
+      <div className="space-y-4 stagger">
         {posts.map((p, i) => (
-          <div key={i} className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+          <div key={i} className="card card-interactive p-5">
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-sm flex-shrink-0">{p.avatar}</div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-sm font-semibold text-white">{p.user}</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">{p.channel}</span>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">{p.channel}</span>
                   <span className="text-xs text-white/30 ml-auto">{p.time}</span>
                 </div>
                 <p className="text-sm text-white/60 leading-relaxed">{p.content}</p>

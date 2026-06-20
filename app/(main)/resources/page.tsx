@@ -30,89 +30,93 @@ export default function ResourcesPage() {
   const [category, setCategory] = useState("套件");
 
   return (
-    <div className="max-w-5xl space-y-6">
+    <div className="max-w-5xl space-y-6 animate-fade-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">🗂️ 資源中心</h1>
-        <p className="text-white/40 text-sm mt-1">Agent 套件、場景範本、擴充插件，即裝即用</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">🗂️ <span className="text-gradient">資源中心</span></h1>
+        <p className="text-white/40 text-sm mt-1.5">Agent 套件、場景範本、擴充插件，即裝即用</p>
       </div>
 
       {/* Tab */}
       <div className="flex gap-2">
         {(["browse","mine"] as const).map(t => (
-          <button key={t} onClick={() => setTab(t)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab===t ? "bg-purple-600 text-white" : "bg-white/5 text-white/40 hover:bg-white/10"}`}>
+          <button key={t} onClick={() => setTab(t)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${tab===t ? "btn-primary" : "bg-white/[0.06] text-white/50 border border-white/10 hover:bg-white/10"}`}>
             {t === "browse" ? "🔍 資源瀏覽" : "🧪 我的試用"}
           </button>
         ))}
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-3">
-        {[["應用套件","6個","📦"],["場景範本","6個","📋"],["擴充插件","3個","🔌"],["教學影片","8支","🎥"]].map(([label, val, emoji]) => (
-          <button key={label} onClick={() => setCategory(label.replace("應用","").replace("擴充",""))} className={`p-4 rounded-xl border text-left transition-all ${category===label.replace("應用","").replace("擴充","") ? "border-purple-500/50 bg-purple-500/10" : "border-white/10 bg-white/[0.04] hover:border-white/20"}`}>
-            <div className="text-xl mb-1">{emoji}</div>
-            <div className="text-white font-semibold">{val}</div>
-            <div className="text-xs text-white/40">{label}</div>
-          </button>
-        ))}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger">
+        {[["應用套件","6個","📦"],["場景範本","6個","📋"],["擴充插件","3個","🔌"],["教學影片","8支","🎥"]].map(([label, val, emoji]) => {
+          const cat = label.replace("應用","").replace("擴充","");
+          const isActive = category === cat;
+          return (
+            <button key={label} onClick={() => setCategory(cat)} className={`card card-interactive p-5 text-left ${isActive ? "border-purple-500/50 glow-soft" : ""}`}>
+              <div className="text-2xl mb-1.5">{emoji}</div>
+              <div className="text-white font-bold text-lg">{val}</div>
+              <div className="text-xs text-white/40 mt-0.5">{label}</div>
+            </button>
+          );
+        })}
       </div>
 
       {/* Kits */}
       {tab === "browse" && (
         <div className="space-y-4">
           <h2 className="font-semibold text-white">應用套件</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 stagger">
             {KITS.map((k, i) => (
-              <div key={i} className="rounded-xl bg-white/[0.04] border border-white/10 p-4 hover:border-purple-500/30 transition-all">
+              <div key={i} className="card card-interactive p-5">
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-semibold text-white text-sm">{k.name}</span>
-                      {k.hot && <span className="text-xs text-yellow-400/80 border border-yellow-400/20 px-1.5 rounded-full">熱門</span>}
-                      {k.trial && <span className="text-xs text-green-400/80 border border-green-400/20 px-1.5 rounded-full">可試用</span>}
+                      {k.hot && <span className="text-xs text-yellow-400 bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded-full">熱門</span>}
+                      {k.trial && <span className="text-xs text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full">可試用</span>}
                     </div>
-                    <div className="text-xs text-white/30 mt-0.5">{k.author} · {k.version} · {k.installs} 安裝</div>
+                    <div className="text-xs text-white/30 mt-1">{k.author} · {k.version} · {k.installs} 安裝</div>
                   </div>
                 </div>
-                <p className="text-xs text-white/40 leading-relaxed mb-3">{k.desc}</p>
+                <p className="text-xs text-white/40 leading-relaxed mb-4">{k.desc}</p>
                 <div className="flex gap-2">
-                  <button className="flex-1 text-xs py-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">安裝套件</button>
-                  <button className="text-xs px-3 py-1.5 rounded-lg bg-white/5 text-white/40 hover:bg-white/10 transition-all">詳細介紹</button>
+                  <button className="flex-1 text-xs py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">安裝套件</button>
+                  <button className="text-xs px-3 py-2 rounded-xl bg-white/[0.06] text-white/50 border border-white/10 hover:bg-white/10 transition-all">詳細介紹</button>
                 </div>
               </div>
             ))}
           </div>
 
           <h2 className="font-semibold text-white pt-2">場景範本</h2>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 stagger">
             {TEMPLATES.map((t, i) => (
-              <div key={i} className="p-4 rounded-xl bg-white/[0.04] border border-white/10 hover:border-purple-500/30 transition-all">
-                <div className="flex items-center gap-2 mb-1">
+              <div key={i} className="card card-interactive p-5">
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                   <span className="text-sm font-semibold text-white">{t.name}</span>
-                  {t.trial && <span className="text-xs text-green-400/80 border border-green-400/20 px-1.5 rounded-full">可試用</span>}
+                  {t.trial && <span className="text-xs text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full">可試用</span>}
                 </div>
-                <div className="text-xs text-white/30 mb-1">{t.author} · {t.category}</div>
-                <p className="text-xs text-white/40">{t.desc}</p>
-                <div className="flex gap-2 mt-3">
-                  <button className="flex-1 text-xs py-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">使用範本</button>
-                  <button className="text-xs px-3 py-1.5 rounded-lg bg-white/5 text-white/40 hover:bg-white/10 transition-all">預覽流程</button>
+                <div className="text-xs text-white/30 mb-1.5">{t.author} · {t.category}</div>
+                <p className="text-xs text-white/40 leading-relaxed">{t.desc}</p>
+                <div className="flex gap-2 mt-4">
+                  <button className="flex-1 text-xs py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">使用範本</button>
+                  <button className="text-xs px-3 py-2 rounded-xl bg-white/[0.06] text-white/50 border border-white/10 hover:bg-white/10 transition-all">預覽流程</button>
                 </div>
               </div>
             ))}
           </div>
 
           <h2 className="font-semibold text-white pt-2">擴充插件（Chrome）</h2>
-          <div className="space-y-3">
+          <div className="space-y-3 stagger">
             {PLUGINS.map((p, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.04] border border-white/10 hover:border-purple-500/30 transition-all group">
-                <div className="text-2xl">🔌</div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
+              <div key={i} className="card card-interactive flex items-center gap-4 p-5 group">
+                <div className="text-2xl flex-shrink-0">🔌</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-semibold text-white text-sm">{p.name}</span>
                     <span className="text-xs text-white/30">{p.version} · {p.author}</span>
                   </div>
                   <p className="text-xs text-white/40 mt-0.5">{p.desc}</p>
                 </div>
-                <button className="text-xs px-4 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 opacity-0 group-hover:opacity-100 transition-all">安裝</button>
+                <button className="flex-shrink-0 text-xs px-4 py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 lg:opacity-0 lg:group-hover:opacity-100 transition-all">安裝</button>
               </div>
             ))}
           </div>
@@ -120,10 +124,10 @@ export default function ResourcesPage() {
       )}
 
       {tab === "mine" && (
-        <div className="rounded-xl bg-white/[0.03] border border-dashed border-white/10 p-10 text-center">
-          <div className="text-3xl mb-3">🧪</div>
+        <div className="card border-dashed p-10 text-center">
+          <div className="text-3xl mb-3 animate-float">🧪</div>
           <div className="text-white/40">你還沒有試用中的資源</div>
-          <button onClick={() => setTab("browse")} className="mt-4 text-xs px-4 py-2 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">前往瀏覽資源</button>
+          <button onClick={() => setTab("browse")} className="mt-4 text-xs px-4 py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">前往瀏覽資源</button>
         </div>
       )}
     </div>

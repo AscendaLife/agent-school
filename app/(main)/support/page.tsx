@@ -8,13 +8,13 @@ export default function SupportPage() {
     { q: "如何申請接案任務？", a: "前往「任務中心」找到感興趣的任務，點擊「申請接案」後等待平台審核（1–2 個工作天）。" },
   ];
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="max-w-2xl space-y-6 animate-fade-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">🛎️ 服務中心</h1>
-        <p className="text-white/40 text-sm mt-1">學習過程有任何疑問，我們 1–2 個工作天內回覆</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">🛎️ <span className="text-gradient">服務中心</span></h1>
+        <p className="text-white/40 text-sm mt-1.5">學習過程有任何疑問，我們 1–2 個工作天內回覆</p>
       </div>
 
-      <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+      <div className="gradient-ring p-5">
         <h2 className="font-semibold text-white mb-4">✍️ 線上提問</h2>
         <div className="space-y-4">
           <div>
@@ -38,18 +38,18 @@ export default function SupportPage() {
             <label className="text-xs text-white/40 block mb-1.5">內容描述</label>
             <textarea rows={4} placeholder="詳細描述你遇到的問題..." className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm outline-none focus:border-purple-500/50 placeholder:text-white/20 resize-none" />
           </div>
-          <button className="w-full py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium text-sm transition-all">送出提問</button>
+          <button className="btn-primary w-full py-2.5 rounded-xl text-white font-semibold text-sm">送出提問</button>
         </div>
         <div className="mt-4 pt-4 border-t border-white/5 text-xs text-white/30 text-center">
           客服時間：週一至週五 10:00–18:00 · support@agentschool.ai
         </div>
       </div>
 
-      <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+      <div className="card p-5">
         <h2 className="font-semibold text-white mb-4">❓ 常見問答</h2>
-        <div className="space-y-3">
+        <div className="space-y-3 stagger">
           {faqs.map((f, i) => (
-            <details key={i} className="group rounded-lg bg-white/[0.03] border border-white/5 overflow-hidden">
+            <details key={i} className="card card-interactive group overflow-hidden">
               <summary className="px-4 py-3 text-sm text-white/70 cursor-pointer hover:text-white list-none flex items-center justify-between">
                 {f.q}
                 <span className="text-white/30 group-open:rotate-180 transition-transform">▼</span>

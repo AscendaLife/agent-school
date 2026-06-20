@@ -13,29 +13,29 @@ export default function MaterialsPage() {
     "進階": "bg-orange-500/10 text-orange-400 border-orange-500/20",
   };
   return (
-    <div className="max-w-3xl space-y-6">
+    <div className="max-w-3xl space-y-6 animate-fade-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">📄 補充教材</h1>
-        <p className="text-white/40 text-sm mt-1">延伸學習資源，深入掌握各項 Agent 應用主題</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">📄 <span className="text-gradient">補充教材</span></h1>
+        <p className="text-white/40 text-sm mt-1.5">延伸學習資源，深入掌握各項 Agent 應用主題</p>
       </div>
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4 stagger">
         {links.map((l, i) => (
-          <div key={i} className="flex items-center gap-4 p-5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-purple-500/30 transition-all group">
-            <div className="text-3xl">{l.emoji}</div>
-            <div className="flex-1">
+          <div key={i} className="card card-interactive flex items-center gap-4 p-5 group">
+            <div className="text-3xl flex-shrink-0">{l.emoji}</div>
+            <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <span className="font-semibold text-white">{l.title}</span>
                 <span className={`text-xs px-2 py-0.5 rounded-full border ${tagColor[l.tag]}`}>{l.tag}</span>
               </div>
               <p className="text-sm text-white/40">{l.desc}</p>
             </div>
-            <button className="text-xs px-4 py-2 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 opacity-0 group-hover:opacity-100 transition-all">前往 →</button>
+            <button className="text-xs px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all flex-shrink-0">前往 →</button>
           </div>
         ))}
       </div>
-      <div className="rounded-xl bg-white/[0.03] border border-dashed border-white/10 p-5 text-center">
-        <div className="text-white/30 text-sm mb-2">想學的主題還沒看到？</div>
-        <button className="text-xs px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/50 transition-all">✍️ 提出教材建議</button>
+      <div className="gradient-ring p-5 text-center">
+        <div className="text-white/40 text-sm mb-3">想學的主題還沒看到？</div>
+        <button className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold">✍️ 提出教材建議</button>
       </div>
     </div>
   );

@@ -19,25 +19,25 @@ export default function CalendarPage() {
     "任務截止": "bg-red-500/20 text-red-300",
   };
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="max-w-4xl space-y-6 animate-fade-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">📅 行事曆</h1>
-        <p className="text-white/40 text-sm mt-1">整合課程直播、平台活動、任務截止與個人排程</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">📅 <span className="text-gradient">行事曆</span></h1>
+        <p className="text-white/40 text-sm mt-1.5">整合課程直播、平台活動、任務截止與個人排程</p>
       </div>
 
       {/* Filter badges */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 stagger">
         {Object.entries(typeColors).map(([type, cls]) => (
-          <span key={type} className={`text-xs px-3 py-1.5 rounded-full ${cls}`}>{type}</span>
+          <span key={type} className={`text-xs px-3 py-1.5 rounded-full border border-white/10 ${cls}`}>{type}</span>
         ))}
       </div>
 
       {/* Month view placeholder */}
-      <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+      <div className="gradient-ring p-5">
         <div className="flex items-center justify-between mb-4">
-          <button className="text-white/40 hover:text-white px-2">←</button>
+          <button className="text-white/40 hover:text-white px-2 transition-colors">←</button>
           <h2 className="font-semibold text-white text-lg">2026 年 7 月</h2>
-          <button className="text-white/40 hover:text-white px-2">→</button>
+          <button className="text-white/40 hover:text-white px-2 transition-colors">→</button>
         </div>
         {/* Simple week grid */}
         <div className="grid grid-cols-7 gap-1 text-center text-xs text-white/30 mb-2">
@@ -51,7 +51,7 @@ export default function CalendarPage() {
             const dateStr = `2026/07/${String(day).padStart(2, "0")}`;
             const hasEvent = ALL_EVENTS.some(e => e.date === dateStr);
             return (
-              <div key={day} className={`aspect-square flex flex-col items-center justify-center rounded-lg text-xs transition-all ${hasEvent ? "bg-purple-600/20 text-purple-300 font-semibold border border-purple-500/30" : "text-white/40 hover:bg-white/5"}`}>
+              <div key={day} className={`aspect-square flex flex-col items-center justify-center rounded-lg text-xs transition-all ${hasEvent ? "bg-gradient-to-br from-purple-600/30 to-pink-600/10 text-purple-200 font-semibold border border-purple-500/30 glow-soft" : "text-white/40 hover:bg-white/[0.06]"}`}>
                 {day}
                 {hasEvent && <div className="w-1 h-1 rounded-full bg-purple-400 mt-0.5" />}
               </div>
@@ -61,14 +61,14 @@ export default function CalendarPage() {
       </div>
 
       {/* Upcoming schedule */}
-      <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+      <div className="card p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-white">近期排程</h2>
-          <button className="text-xs px-3 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/30 transition-all">+ 新增個人活動</button>
+          <button className="btn-primary px-4 py-2 rounded-xl text-xs font-semibold">+ 新增個人活動</button>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 stagger">
           {upcoming.map((e, i) => (
-            <div key={i} className={`flex items-center gap-3 p-3 rounded-lg border ${e.color}`}>
+            <div key={i} className={`card-interactive flex items-center gap-3 p-3 rounded-xl border ${e.color}`}>
               <div className="text-xs font-mono w-20 flex-shrink-0 opacity-70">{e.date}</div>
               <div className="text-xs opacity-60 w-24 flex-shrink-0">{e.time}</div>
               <div className="text-sm font-medium flex-1">{e.title}</div>

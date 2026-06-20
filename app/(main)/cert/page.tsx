@@ -66,14 +66,14 @@ export default function CertPage() {
   const passed = score >= 80;
 
   return (
-    <div className="space-y-6 max-w-5xl">
+    <div className="space-y-6 max-w-5xl animate-fade-up">
       <div>
-        <h1 className="text-2xl font-bold text-white">🏅 證照中心</h1>
-        <p className="text-white/40 text-sm mt-1">5 級業界認證 · 永久上鏈 · 對外可驗真 · 認證師平均月接案收入 NT$2.3 萬</p>
+        <h1 className="text-2xl font-bold text-white tracking-tight">🏅 <span className="text-gradient">證照中心</span></h1>
+        <p className="text-white/40 text-sm mt-1.5">5 級業界認證 · 永久上鏈 · 對外可驗真 · 認證師平均月接案收入 NT$2.3 萬</p>
       </div>
 
       {/* Progress */}
-      <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5">
+      <div className="card p-5">
         <div className="flex items-center justify-between mb-3">
           <div className="text-sm text-white font-semibold">我的認證進度</div>
           <div className="text-xs text-white/30">1 / 5 已取得</div>
@@ -93,17 +93,17 @@ export default function CertPage() {
       </div>
 
       {/* Cert cards */}
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid grid-cols-5 gap-3 stagger">
         {CERTS.map((c) => (
           <button key={c.id} onClick={() => { setSelected(c.id); setExamMode(false); setSubmitted(false); setAnswers([]); }}
-            className={`p-4 rounded-xl border text-left transition-all ${selected === c.id ? `border-white/30 bg-white/[0.08]` : "bg-white/[0.04] border-white/10 hover:border-white/20"} ${c.status === "locked" ? "opacity-50" : ""}`}>
+            className={`card p-4 text-left ${selected === c.id ? "border-white/30 glow-soft" : "card-interactive"} ${c.status === "locked" ? "opacity-50" : ""}`}>
             <div className="text-3xl mb-2">{c.emoji}</div>
             <div className={`text-xs font-bold bg-gradient-to-r ${c.color} bg-clip-text text-transparent`}>Lv.{c.lv}</div>
             <div className="font-bold text-white text-sm">{c.name}</div>
             <div className="text-xs text-white/30 mt-1">{c.en}</div>
             <div className="mt-2">
-              {c.status === "owned" && <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400">✓ 已取得</span>}
-              {c.status === "available" && <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">可報考</span>}
+              {c.status === "owned" && <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/20">✓ 已取得</span>}
+              {c.status === "available" && <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/20">可報考</span>}
               {c.status === "locked" && <span className="text-xs text-white/20">🔒 未解鎖</span>}
             </div>
           </button>
@@ -112,7 +112,7 @@ export default function CertPage() {
 
       {/* Detail */}
       {cert && !examMode && (
-        <div className={`rounded-xl bg-white/[0.04] border ${cert.borderColor} p-6 space-y-5`}>
+        <div className="gradient-ring p-6 space-y-5">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${cert.color} flex items-center justify-center text-4xl shadow-lg`}>{cert.emoji}</div>
@@ -130,28 +130,28 @@ export default function CertPage() {
               )}
               {cert.status === "available" && (
                 <button onClick={() => { setExamMode(true); setAnswers([]); setSubmitted(false); }}
-                  className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-sm transition-all">
+                  className="btn-primary px-5 py-2 rounded-xl text-sm font-semibold">
                   📝 開始考試
                 </button>
               )}
               {cert.status === "locked" && (
-                <div className="px-5 py-2 rounded-xl bg-white/5 text-white/30 text-sm">完成課程後解鎖</div>
+                <div className="px-5 py-2 rounded-xl bg-white/5 text-white/30 text-sm border border-white/10">完成課程後解鎖</div>
               )}
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
-            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
+            <div className="card p-4">
               <div className="text-xs text-white/30 mb-2">📋 報考資格</div>
               <div className="text-sm text-white/70 leading-relaxed">{cert.req}</div>
             </div>
-            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
+            <div className="card p-4">
               <div className="text-xs text-white/30 mb-2">⚡ 認證涵蓋技能</div>
               <div className="flex flex-wrap gap-1.5">
-                {cert.skills.map(s => <span key={s} className="text-xs px-2 py-1 rounded-lg bg-white/5 text-white/60 border border-white/5">{s}</span>)}
+                {cert.skills.map(s => <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-white/[0.06] text-white/60 border border-white/10">{s}</span>)}
               </div>
             </div>
-            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
+            <div className="card p-4">
               <div className="text-xs text-white/30 mb-2">⏳ 有效期 / 考費</div>
               <div className="text-sm text-white">{cert.validity}</div>
               <div className={`text-sm mt-1.5 font-semibold ${cert.price === 0 ? "text-green-400" : "text-purple-300"}`}>
@@ -164,7 +164,7 @@ export default function CertPage() {
 
       {/* Exam */}
       {cert && examMode && (
-        <div className="rounded-xl bg-white/[0.04] border border-purple-500/30 p-6 space-y-6">
+        <div className="card p-6 space-y-6" style={{ borderColor: "rgba(168, 85, 247, 0.3)" }}>
           {!submitted ? (
             <>
               <div className="flex items-center justify-between">
@@ -177,8 +177,9 @@ export default function CertPage() {
                 <div className="text-center py-8 text-white/40">此證照考試系統建置中，請先完成對應課程</div>
               ) : (
                 <>
+                  <div className="space-y-6 stagger">
                   {mockQ.map((q, qi) => (
-                    <div key={qi} className="space-y-3 p-4 rounded-xl bg-white/[0.03] border border-white/5">
+                    <div key={qi} className="card p-4 space-y-3">
                       <div className="text-sm font-semibold text-white">Q{qi + 1}. {q.q}</div>
                       <div className="grid grid-cols-2 gap-2">
                         {q.opts.map((opt, oi) => (
@@ -190,8 +191,9 @@ export default function CertPage() {
                       </div>
                     </div>
                   ))}
+                  </div>
                   <button onClick={() => setSubmitted(true)} disabled={answers.length < mockQ.length}
-                    className="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-30 text-white font-semibold transition-all">
+                    className="btn-primary w-full py-3 rounded-xl font-semibold disabled:opacity-30">
                     繳交答案 →
                   </button>
                 </>
@@ -209,11 +211,11 @@ export default function CertPage() {
                   <div className="text-white/40 text-sm">電子證書已寄至信箱 · 可前往「成果展示」公開分享</div>
                   <div className="flex justify-center gap-3">
                     <button className={`px-6 py-2.5 rounded-xl bg-gradient-to-r ${cert.color} text-black font-bold text-sm`}>⬇ 下載電子證書</button>
-                    <button onClick={() => { setExamMode(false); setSubmitted(false); }} className="px-6 py-2.5 rounded-xl bg-white/10 text-white text-sm">返回</button>
+                    <button onClick={() => { setExamMode(false); setSubmitted(false); }} className="px-6 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 text-sm transition-all">返回</button>
                   </div>
                 </div>
               ) : (
-                <button onClick={() => { setAnswers([]); setSubmitted(false); }} className="px-8 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm transition-all">重新作答</button>
+                <button onClick={() => { setAnswers([]); setSubmitted(false); }} className="px-8 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 text-sm transition-all">重新作答</button>
               )}
             </div>
           )}
