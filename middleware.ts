@@ -11,8 +11,9 @@ export function middleware(req: NextRequest) {
   }
 
   // Check auth cookie
+  const SECRET = process.env.AUTH_SECRET ?? "as_valid_session";
   const auth = req.cookies.get("as_auth")?.value;
-  if (auth === process.env.AUTH_SECRET) {
+  if (auth === SECRET) {
     return NextResponse.next();
   }
 
