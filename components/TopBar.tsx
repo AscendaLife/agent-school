@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import FeatureGuide from "@/components/FeatureGuide";
 
 export default function TopBar() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function TopBar() {
       </div>
 
       <div className="flex items-center gap-3">
+        <FeatureGuide />
         <Link
           href="/cert"
           className="hidden md:flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full glass hover:border-white/20 text-white/55 hover:text-white transition-all"
