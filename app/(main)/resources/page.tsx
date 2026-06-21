@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "@/lib/toast";
 
 const KITS = [
   { name: "Agent Starter Pack", author: "Alex Chen", version: "v1.2.0", desc: "新手孵化必備套件：含基礎 Prompt 模板、記憶模組、FAQ 回覆工作流，適合第一次建 Agent。", category: "入門套件", trial: true, installs: 240, hot: true },
@@ -26,8 +28,11 @@ const PLUGINS = [
 ];
 
 export default function ResourcesPage() {
+  const router = useRouter();
   const [tab, setTab] = useState<"browse"|"mine">("browse");
   const [category, setCategory] = useState("套件");
+  const [installedKits, setInstalledKits] = useState<Record<number, boolean>>({});
+  const [installedPlugins, setInstalledPlugins] = useState<Record<number, boolean>>({});
 
   return (
     <div className="max-w-5xl space-y-6 animate-fade-up">
@@ -79,8 +84,8 @@ export default function ResourcesPage() {
                 </div>
                 <p className="text-xs text-white/40 leading-relaxed mb-4">{k.desc}</p>
                 <div className="flex gap-2">
-                  <button className="flex-1 text-xs py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">安裝套件</button>
-                  <button className="text-xs px-3 py-2 rounded-xl bg-white/[0.06] text-white/50 border border-white/10 hover:bg-white/10 transition-all">詳細介紹</button>
+                  <button onClick={() => { if (installedKits[i]) return; setInstalledKits(s => ({ ...s, [i]: true })); toast("（示範）套件安裝成功，已加入你的工作台"); }} disabled={!!installedKits[i]} className="flex-1 text-xs py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">{installedKits[i] ? "已安裝 ✓" : "安裝套件"}</button>
+                  <button onClick={() => toast(`（示範）${k.name}：${k.desc}`, "info")} className="text-xs px-3 py-2 rounded-xl bg-white/[0.06] text-white/50 border border-white/10 hover:bg-white/10 transition-all">詳細介紹</button>
                 </div>
               </div>
             ))}
@@ -97,8 +102,8 @@ export default function ResourcesPage() {
                 <div className="text-xs text-white/30 mb-1.5">{t.author} · {t.category}</div>
                 <p className="text-xs text-white/40 leading-relaxed">{t.desc}</p>
                 <div className="flex gap-2 mt-4">
-                  <button className="flex-1 text-xs py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">使用範本</button>
-                  <button className="text-xs px-3 py-2 rounded-xl bg-white/[0.06] text-white/50 border border-white/10 hover:bg-white/10 transition-all">預覽流程</button>
+                  <button onClick={() => { toast(`（示範）已套用範本「${t.name}」，前往訓練場`); router.push("/training"); }} className="flex-1 text-xs py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all">使用範本</button>
+                  <button onClick={() => toast(`（示範）${t.name} 流程：${t.desc}`, "info")} className="text-xs px-3 py-2 rounded-xl bg-white/[0.06] text-white/50 border border-white/10 hover:bg-white/10 transition-all">預覽流程</button>
                 </div>
               </div>
             ))}
@@ -116,7 +121,7 @@ export default function ResourcesPage() {
                   </div>
                   <p className="text-xs text-white/40 mt-0.5">{p.desc}</p>
                 </div>
-                <button className="flex-shrink-0 text-xs px-4 py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 lg:opacity-0 lg:group-hover:opacity-100 transition-all">安裝</button>
+                <button onClick={() => { if (installedPlugins[i]) return; setInstalledPlugins(s => ({ ...s, [i]: true })); toast("（示範）擴充插件已安裝至 Chrome"); }} disabled={!!installedPlugins[i]} className="flex-shrink-0 text-xs px-4 py-2 rounded-xl bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 lg:opacity-0 lg:group-hover:opacity-100 transition-all">{installedPlugins[i] ? "已安裝 ✓" : "安裝"}</button>
               </div>
             ))}
           </div>

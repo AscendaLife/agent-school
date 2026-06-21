@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { COURSES, INSTRUCTORS } from "@/lib/data";
+import { toast } from "@/lib/toast";
 
 const CONCEPTS = [
   { lv: 1, name: "孵化", items: [
@@ -64,6 +65,7 @@ const QUIZZES = [
 export default function LearningPage() {
   const [tab, setTab] = useState<"novice"|"courses"|"mine"|"quiz">("novice");
   const [expandedLv, setExpandedLv] = useState<number|null>(1);
+  const [enrolled, setEnrolled] = useState<Record<string, boolean>>({});
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-fade-up">
@@ -116,7 +118,7 @@ export default function LearningPage() {
               </h3>
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 stagger">
                 {CONCEPTS[expandedLv-1]?.items.map((item, i) => (
-                  <div key={i} className="card card-interactive p-3.5">
+                  <div key={i} onClick={() => toast(`${item.name} ·${item.type}（示範）概念卡已加入學習清單`, "info")} className="card card-interactive p-3.5 cursor-pointer">
                     <div className="font-medium text-white text-sm mb-1.5">{item.name}</div>
                     <span className={`text-xs px-2 py-0.5 rounded-full border ${TYPE_COLOR[item.type] || "bg-white/5 text-white/40"}`}>{item.type}</span>
                   </div>
@@ -135,7 +137,7 @@ export default function LearningPage() {
             <h2 className="font-semibold text-white mb-4">👨‍🏫 師資陣容</h2>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger">
               {INSTRUCTORS.map((ins) => (
-                <div key={ins.id} className="card card-interactive text-center p-3.5">
+                <div key={ins.id} onClick={() => toast(`${ins.name} · ${ins.title}（示範）講師介紹`, "info")} className="card card-interactive text-center p-3.5 cursor-pointer">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm mx-auto mb-2">{ins.avatar}</div>
                   <div className="text-sm font-semibold text-white">{ins.name}</div>
                   <div className="text-xs text-purple-400">{ins.title}</div>
@@ -149,7 +151,7 @@ export default function LearningPage() {
           {COURSES.map((c) => {
             const ins = INSTRUCTORS.find(i => i.id === c.instructor)!;
             return (
-              <div key={c.id} className="card card-interactive overflow-hidden">
+              <div key={c.id} onClick={() => toast(`${c.name} · ${c.subtitle}（示範）${c.modules} 堂真人直播課程`, "info")} className="card card-interactive overflow-hidden cursor-pointer">
                 <div className={`h-1.5 bg-gradient-to-r ${c.color}`} />
                 <div className="p-5">
                   <div className="flex items-start justify-between gap-4">
@@ -168,7 +170,7 @@ export default function LearningPage() {
                     <div className="text-right flex-shrink-0">
                       <div className="text-xl font-bold text-white">NT$ {c.price.toLocaleString()}</div>
                       <div className="text-xs text-white/30">{c.modules} 堂 · 真人直播</div>
-                      <button className="btn-primary mt-2 px-4 py-1.5 rounded-xl text-white text-xs font-semibold">立即報名</button>
+                      <button onClick={(e) => { e.stopPropagation(); if (enrolled[c.id]) return; toast("（示範）報名成功！開課前會以 Email 通知"); setEnrolled(p => ({ ...p, [c.id]: true })); }} className="btn-primary mt-2 px-4 py-1.5 rounded-xl text-white text-xs font-semibold">{enrolled[c.id] ? "已報名 ✓" : "立即報名"}</button>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/5">
@@ -211,7 +213,7 @@ export default function LearningPage() {
       {tab === "mine" && (
         <div className="space-y-4 stagger">
           {ENROLLED.map((e, i) => (
-            <div key={i} className="card card-interactive p-5">
+            <div key={i} onClick={() => toast(`${e.title}（示範）${e.status === "已完成" ? `已完成 · 成績 ${e.score} 分` : "進行中 · " + e.date}`, "info")} className="card card-interactive p-5 cursor-pointer">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-semibold text-white">{e.title}</div>
@@ -220,7 +222,7 @@ export default function LearningPage() {
                 <div className="flex items-center gap-3">
                   {e.score && <div className="text-sm font-bold text-green-400">成績：{e.score} 分</div>}
                   <span className={`text-xs px-3 py-1 rounded-full ${e.status === "已完成" ? "bg-green-500/10 text-green-400 border border-green-500/20" : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"}`}>{e.status}</span>
-                  <button className="px-4 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 text-xs transition-all">
+                  <button onClick={(e2) => { e2.stopPropagation(); toast(e.status === "已完成" ? "（示範）正在載入課程回放…" : "（示範）正在進入課程…", "info"); }} className="px-4 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 text-xs transition-all">
                     {e.status === "已完成" ? "▶ 回放" : "進入課程"}
                   </button>
                 </div>
@@ -240,7 +242,7 @@ export default function LearningPage() {
         <div className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-2 stagger">
             {[["課後小測", "隨堂測驗，完成可得積分"],["等級認證", "通過可取得官方等級證書"],["架構師認證", "最高級別，業界認可資格"]].map(([t, d]) => (
-              <div key={t} className="card card-interactive p-4 text-center">
+              <div key={t} onClick={() => toast(`${t}（示範）${d}`, "info")} className="card card-interactive p-4 text-center cursor-pointer">
                 <div className="font-semibold text-white text-sm">{t}</div>
                 <div className="text-xs text-white/30 mt-1">{d}</div>
               </div>
@@ -248,7 +250,11 @@ export default function LearningPage() {
           </div>
           <div className="space-y-4 stagger">
           {QUIZZES.map((q, i) => (
-            <div key={i} className="card card-interactive flex items-center justify-between p-5">
+            <div key={i} onClick={() => toast(
+              q.status === "已完成" ? `${q.title}（示範）你已完成，得分 ${q.score} 分` :
+              q.status === "可作答" ? `${q.title}（示範）點「開始作答」即可進入測驗` :
+              `${q.title}（示範）尚未開放，敬請期待`, "info"
+            )} className="card card-interactive flex items-center justify-between p-5 cursor-pointer">
               <div>
                 <div className="font-semibold text-white">{q.title}</div>
                 <div className="text-xs text-white/30 mt-1">{q.course} · {q.questions} 題 · 及格 {q.passing} 分 · 限時 {q.time} 分鐘</div>
@@ -261,7 +267,7 @@ export default function LearningPage() {
                   "bg-white/5 text-white/30 border-white/10"
                 }`}>{q.status}</span>
                 {q.status === "可作答" && (
-                  <button className="btn-primary px-4 py-1.5 rounded-xl text-white text-xs font-semibold">開始作答</button>
+                  <button onClick={(e) => { e.stopPropagation(); toast("（示範）測驗已開始，限時計時中…"); }} className="btn-primary px-4 py-1.5 rounded-xl text-white text-xs font-semibold">開始作答</button>
                 )}
               </div>
             </div>

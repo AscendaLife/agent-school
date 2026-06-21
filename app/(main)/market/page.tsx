@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "@/lib/toast";
 
 const AGENTS = [
   {
@@ -49,8 +51,10 @@ const AGENTS = [
 const CATEGORIES = ["全部", "客服", "銷售", "內容創作", "資料整理", "企業知識庫", "個人助理"];
 
 export default function MarketPage() {
+  const router = useRouter();
   const [mode, setMode] = useState<"buy" | "rent">("rent");
   const [cat, setCat] = useState("全部");
+  const [owned, setOwned] = useState<Record<string, boolean>>({});
 
   return (
     <div className="space-y-6 max-w-5xl animate-fade-up">
@@ -59,7 +63,7 @@ export default function MarketPage() {
           <h1 className="text-2xl font-bold text-white tracking-tight">🛒 <span className="text-gradient">Agent 市場</span></h1>
           <p className="text-white/40 text-sm mt-1.5">買/租其他學員訓練的 Agent · 上架你的 Agent 賺分潤 70%</p>
         </div>
-        <button className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold">
+        <button onClick={() => router.push("/training")} className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold">
           + 上架我的 Agent
         </button>
       </div>
@@ -138,8 +142,15 @@ export default function MarketPage() {
                   </div>
                   <div className="text-xs text-white/30">{mode === "rent" ? "/ 月" : "買斷"}</div>
                 </div>
-                <button className="btn-primary px-4 py-2 rounded-xl text-xs font-semibold">
-                  {mode === "rent" ? "立即租用" : "立即購買"}
+                <button
+                  onClick={() => {
+                    if (owned[a.id]) return;
+                    toast("（示範）訂閱成功，Agent 已加入你的工作台", "success");
+                    setOwned((o) => ({ ...o, [a.id]: true }));
+                  }}
+                  disabled={owned[a.id]}
+                  className="btn-primary px-4 py-2 rounded-xl text-xs font-semibold">
+                  {owned[a.id] ? "已擁有 ✓" : mode === "rent" ? "立即租用" : "立即購買"}
                 </button>
               </div>
             </div>
@@ -156,8 +167,8 @@ export default function MarketPage() {
             <div className="font-bold text-white text-lg mb-1">你的 Agent 也能賺錢</div>
             <div className="text-white/45 text-sm mb-4">上架後每筆交易你拿 <span className="text-green-400 font-bold">70%</span>，學校抽 30%。頂尖 Agent 月收 NT$3–8 萬。</div>
             <div className="flex justify-center gap-3">
-              <button className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold">前往訓練 Agent</button>
-              <button className="px-5 py-2.5 rounded-xl text-sm font-medium bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 transition-all">查看上架教學</button>
+              <button onClick={() => router.push("/training")} className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold">前往訓練 Agent</button>
+              <button onClick={() => toast("（示範）上架教學已寄送至你的信箱", "info")} className="px-5 py-2.5 rounded-xl text-sm font-medium bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 transition-all">查看上架教學</button>
             </div>
           </div>
         </div>

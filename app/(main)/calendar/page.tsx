@@ -1,4 +1,5 @@
 import { COURSES } from "@/lib/data";
+import ActionButton from "@/components/ActionButton";
 
 const ALL_EVENTS = [
   ...COURSES.flatMap(c => c.schedule.map(s => ({
@@ -35,9 +36,9 @@ export default function CalendarPage() {
       {/* Month view placeholder */}
       <div className="gradient-ring p-5">
         <div className="flex items-center justify-between mb-4">
-          <button className="text-white/40 hover:text-white px-2 transition-colors">←</button>
+          <ActionButton className="text-white/40 hover:text-white px-2 transition-colors" toastMsg="（示範）已是最早月份，2026 年 7 月起有排程" toastKind="info">←</ActionButton>
           <h2 className="font-semibold text-white text-lg">2026 年 7 月</h2>
-          <button className="text-white/40 hover:text-white px-2 transition-colors">→</button>
+          <ActionButton className="text-white/40 hover:text-white px-2 transition-colors" toastMsg="（示範）2026 年 8 月暫無公開排程" toastKind="info">→</ActionButton>
         </div>
         {/* Simple week grid */}
         <div className="grid grid-cols-7 gap-1 text-center text-xs text-white/30 mb-2">
@@ -64,16 +65,16 @@ export default function CalendarPage() {
       <div className="card p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-white">近期排程</h2>
-          <button className="btn-primary px-4 py-2 rounded-xl text-xs font-semibold">+ 新增個人活動</button>
+          <ActionButton className="btn-primary px-4 py-2 rounded-xl text-xs font-semibold" toastMsg="（示範）個人活動已加入你的行事曆">+ 新增個人活動</ActionButton>
         </div>
         <div className="space-y-2 stagger">
           {upcoming.map((e, i) => (
-            <div key={i} className={`card-interactive flex items-center gap-3 p-3 rounded-xl border ${e.color}`}>
+            <ActionButton key={i} className={`card-interactive flex items-center gap-3 p-3 rounded-xl border w-full text-left ${e.color}`} toastMsg={`（示範）${e.title} · ${e.date} ${e.time}`} toastKind="info">
               <div className="text-xs font-mono w-20 flex-shrink-0 opacity-70">{e.date}</div>
               <div className="text-xs opacity-60 w-24 flex-shrink-0">{e.time}</div>
               <div className="text-sm font-medium flex-1">{e.title}</div>
               <span className={`text-xs px-2 py-0.5 rounded-full flex-shrink-0 ${typeColors[e.type]}`}>{e.type}</span>
-            </div>
+            </ActionButton>
           ))}
         </div>
       </div>

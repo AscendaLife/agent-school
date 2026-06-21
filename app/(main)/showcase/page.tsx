@@ -1,3 +1,5 @@
+import ActionButton from "@/components/ActionButton";
+
 export default function ShowcasePage() {
   const works = [
     { name: "小助理 Aria", owner: "Ryan Wu", level: "訓練期 Lv.3", skills: ["🔍 搜尋","📚 知識庫","💬 LINE"], desc: "每天早上自動摘要 10 則科技新聞 + 推播 LINE，已穩定運行 30 天", type: "生活助手", likes: 42 },
@@ -27,8 +29,8 @@ export default function ShowcasePage() {
               {w.skills.map(s => <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-white/[0.06] text-white/60 border border-white/10">{s}</span>)}
             </div>
             <div className="flex items-center justify-between pt-3 border-t border-white/5">
-              <button className="text-xs text-white/30 hover:text-white/60 transition-all">❤️ {w.likes}</button>
-              <button className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.06] text-white/60 hover:bg-white/10 border border-white/10 transition-all">查看詳情</button>
+              <ActionButton className="text-xs text-white/30 hover:text-white/60 transition-all" toastMsg={`（示範）已為「${w.name}」按讚 ❤️`} doneLabel={`❤️ ${w.likes + 1}`}>❤️ {w.likes}</ActionButton>
+              <ActionButton className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.06] text-white/60 hover:bg-white/10 border border-white/10 transition-all" toastMsg={`（示範）「${w.name}」詳情：${w.desc}`} toastKind="info">查看詳情</ActionButton>
             </div>
           </div>
         ))}

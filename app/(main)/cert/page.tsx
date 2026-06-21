@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { toast } from "@/lib/toast";
 
 const CERTS = [
   {
@@ -126,7 +127,7 @@ export default function CertPage() {
             </div>
             <div className="flex-shrink-0 flex gap-2">
               {cert.status === "owned" && (
-                <button className={`px-5 py-2 rounded-xl bg-gradient-to-r ${cert.color} text-black font-bold text-sm`}>⬇ 下載證書</button>
+                <button onClick={() => toast("（示範）證書檔案已寄送至你的信箱")} className={`px-5 py-2 rounded-xl bg-gradient-to-r ${cert.color} text-black font-bold text-sm`}>⬇ 下載證書</button>
               )}
               {cert.status === "available" && (
                 <button onClick={() => { setExamMode(true); setAnswers([]); setSubmitted(false); }}
@@ -210,7 +211,7 @@ export default function CertPage() {
                 <div className="space-y-3">
                   <div className="text-white/40 text-sm">電子證書已寄至信箱 · 可前往「成果展示」公開分享</div>
                   <div className="flex justify-center gap-3">
-                    <button className={`px-6 py-2.5 rounded-xl bg-gradient-to-r ${cert.color} text-black font-bold text-sm`}>⬇ 下載電子證書</button>
+                    <button onClick={() => toast("（示範）電子證書已寄送至你的信箱")} className={`px-6 py-2.5 rounded-xl bg-gradient-to-r ${cert.color} text-black font-bold text-sm`}>⬇ 下載電子證書</button>
                     <button onClick={() => { setExamMode(false); setSubmitted(false); }} className="px-6 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 text-sm transition-all">返回</button>
                   </div>
                 </div>

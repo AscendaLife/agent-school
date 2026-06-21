@@ -1,3 +1,5 @@
+import ActionButton from "@/components/ActionButton";
+
 export default function MaterialsPage() {
   const links = [
     { title: "Agent Prompt 實戰手冊", desc: "從角色設定到工具呼叫，完整 Prompt 範例庫", url: "#", tag: "免費", emoji: "📖" },
@@ -29,13 +31,13 @@ export default function MaterialsPage() {
               </div>
               <p className="text-sm text-white/40">{l.desc}</p>
             </div>
-            <button className="text-xs px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all flex-shrink-0">前往 →</button>
+            <ActionButton className="text-xs px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/10 text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" toastMsg={`（示範）已開啟「${l.title}」，完整內容會寄送至你的信箱`} toastKind="info">前往 →</ActionButton>
           </div>
         ))}
       </div>
       <div className="gradient-ring p-5 text-center">
         <div className="text-white/40 text-sm mb-3">想學的主題還沒看到？</div>
-        <button className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold">✍️ 提出教材建議</button>
+        <ActionButton className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold" toastMsg="（示範）已收到你的建議，感謝！" doneLabel="✅ 建議已送出">✍️ 提出教材建議</ActionButton>
       </div>
     </div>
   );

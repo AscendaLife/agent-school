@@ -1,4 +1,5 @@
 import { REDEEM_ITEMS } from "@/lib/data";
+import ActionButton from "@/components/ActionButton";
 
 export default function RedeemPage() {
   const categories = [...new Set(REDEEM_ITEMS.map(r => r.category))];
@@ -35,7 +36,11 @@ export default function RedeemPage() {
                 </div>
                 <div className="text-right ml-3 flex-shrink-0">
                   <div className="text-sm font-bold text-yellow-400">{r.points} 點</div>
-                  <button disabled={r.points > 350} className="btn-primary mt-1.5 px-3 py-1 rounded-lg text-xs font-semibold disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:brightness-100">兌換</button>
+                  {r.points <= 350 ? (
+                    <ActionButton className="btn-primary mt-1.5 px-3 py-1 rounded-lg text-xs font-semibold" toastMsg={`（示範）已兌換「${r.name}」，扣除 ${r.points} 點`} doneLabel="已兌換 ✓">兌換</ActionButton>
+                  ) : (
+                    <ActionButton className="mt-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-white/[0.06] text-white/40 border border-white/10 hover:bg-white/10 transition-all" toastMsg={`點數不足，還差 ${r.points - 350} 點。完成任務或考認證可累積點數！`} toastKind="warning">點數不足</ActionButton>
+                  )}
                 </div>
               </div>
             ))}

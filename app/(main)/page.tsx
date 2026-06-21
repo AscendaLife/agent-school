@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TASKS, COURSES } from "@/lib/data";
+import ActionButton from "@/components/ActionButton";
 
 const STATS = [
   { label: "學習天數", value: "12", emoji: "📅", sub: "連續打卡中", accent: "text-blue-400" },
@@ -148,7 +149,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex gap-1.5 text-base">{a.skills.map((s) => <span key={s}>{s}</span>)}</div>
-                  <button className="text-xs px-3 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 hover:bg-purple-600/40 transition-all">上架市場</button>
+                  <ActionButton href="/market" className="text-xs px-3 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 hover:bg-purple-600/40 transition-all">上架市場</ActionButton>
                 </div>
               </div>
             ))}

@@ -1,3 +1,5 @@
+import ActionButton from "@/components/ActionButton";
+
 export default function EventsPage() {
   const upcoming = [
     { title: "Agent School 招生說明會", date: "2026/07/10", time: "19:00–21:00", type: "線上說明會", seats: 80, enrolled: 34, free: true, desc: "了解 Agent School 五階段課程架構、師資與就業方向，現場可直接報名課程享早鳥優惠。" },
@@ -40,7 +42,7 @@ export default function EventsPage() {
                   </div>
                   {e.enrolled/e.seats > 0.8 && <div className="text-xs text-red-400 mt-1">⚠️ 名額即將額滿</div>}
                 </div>
-                <button className="btn-primary flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-semibold">立即報名</button>
+                <ActionButton className="btn-primary flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-semibold" toastMsg="（示範）報名成功！開課前會以 Email 通知" doneLabel="已報名 ✓">立即報名</ActionButton>
               </div>
             </div>
           ))}
@@ -56,7 +58,7 @@ export default function EventsPage() {
                 <div className="text-sm text-white/50">{e.title}</div>
                 <div className="text-xs text-white/20 mt-0.5">{e.date} · {e.type} · {e.attendees} 人參加</div>
               </div>
-              <button className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.06] text-white/40 hover:text-white/70 hover:bg-white/10 border border-white/10 transition-all">看回放</button>
+              <ActionButton className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.06] text-white/40 hover:text-white/70 hover:bg-white/10 border border-white/10 transition-all" toastMsg="（示範）回放即將開始播放" toastKind="info">看回放</ActionButton>
             </div>
           ))}
         </div>

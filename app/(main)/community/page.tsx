@@ -1,3 +1,5 @@
+import ActionButton from "@/components/ActionButton";
+
 export default function CommunityPage() {
   const channels = [
     { emoji: "🙋", name: "自我介紹", count: 24 },
@@ -21,13 +23,13 @@ export default function CommunityPage() {
       </div>
       <div className="grid grid-cols-3 gap-3 stagger">
         {channels.map(c => (
-          <button key={c.name} className="card card-interactive flex items-center gap-3 p-3.5 text-left">
+          <ActionButton key={c.name} className="card card-interactive flex items-center gap-3 p-3.5 text-left" toastMsg={`（示範）進入「${c.name}」頻道，共 ${c.count} 則貼文`} toastKind="info">
             <span className="text-xl flex-shrink-0">{c.emoji}</span>
             <div className="min-w-0">
               <div className="text-sm text-white font-medium truncate">{c.name}</div>
               <div className="text-xs text-white/30">{c.count} 則貼文</div>
             </div>
-          </button>
+          </ActionButton>
         ))}
       </div>
       <div className="space-y-4 stagger">
@@ -43,8 +45,8 @@ export default function CommunityPage() {
                 </div>
                 <p className="text-sm text-white/60 leading-relaxed">{p.content}</p>
                 <div className="flex gap-4 mt-3">
-                  <button className="text-xs text-white/30 hover:text-white/60 transition-all">👍 {p.likes}</button>
-                  <button className="text-xs text-white/30 hover:text-white/60 transition-all">💬 {p.replies} 則回覆</button>
+                  <ActionButton className="text-xs text-white/30 hover:text-white/60 transition-all" toastMsg="（示範）已按讚 ❤️" doneLabel={`👍 ${p.likes + 1}`}>👍 {p.likes}</ActionButton>
+                  <ActionButton className="text-xs text-white/30 hover:text-white/60 transition-all" toastMsg="（示範）已展開回覆，留言功能開發中" toastKind="info">💬 {p.replies} 則回覆</ActionButton>
                 </div>
               </div>
             </div>

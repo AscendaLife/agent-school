@@ -1,4 +1,5 @@
 import { SKILLS } from "@/lib/data";
+import ActionButton from "@/components/ActionButton";
 
 export default function SkillsPage() {
   const categories = [...new Set(SKILLS.map(s => s.category))];
@@ -49,7 +50,7 @@ export default function SkillsPage() {
                   </div>
                   <p className="text-xs text-white/40 mt-0.5">{s.desc}</p>
                 </div>
-                <button className="text-xs px-3 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0">安裝</button>
+                <ActionButton className="text-xs px-3 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/20 hover:bg-purple-600/40 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0" toastMsg="（示範）已安裝，此技能已加入你的 Agent 工作台" doneLabel="已安裝 ✓">安裝</ActionButton>
               </div>
             ))}
           </div>

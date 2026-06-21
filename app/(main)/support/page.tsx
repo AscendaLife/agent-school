@@ -1,3 +1,5 @@
+import ActionButton from "@/components/ActionButton";
+
 export default function SupportPage() {
   const faqs = [
     { q: "如何報名課程？", a: "前往「學習中心」選擇課程，點擊「立即報名」後填寫資料並完成付款即可。" },
@@ -38,7 +40,7 @@ export default function SupportPage() {
             <label className="text-xs text-white/40 block mb-1.5">內容描述</label>
             <textarea rows={4} placeholder="詳細描述你遇到的問題..." className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm outline-none focus:border-purple-500/50 placeholder:text-white/20 resize-none" />
           </div>
-          <button className="btn-primary w-full py-2.5 rounded-xl text-white font-semibold text-sm">送出提問</button>
+          <ActionButton className="btn-primary w-full py-2.5 rounded-xl text-white font-semibold text-sm" toastMsg="（示範）已送出，我們會在 1–2 個工作天內回覆你" doneLabel="已送出 ✓">送出提問</ActionButton>
         </div>
         <div className="mt-4 pt-4 border-t border-white/5 text-xs text-white/30 text-center">
           客服時間：週一至週五 10:00–18:00 · support@agentschool.ai

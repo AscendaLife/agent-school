@@ -1,3 +1,4 @@
+import ActionButton from "@/components/ActionButton";
 import { TASKS, SKILLS } from "@/lib/data";
 
 const DIFF_COLOR: Record<string, string> = {
@@ -48,7 +49,7 @@ export default function TasksPage() {
                     <div className="text-xl font-bold text-green-400">NT${t.reward.toLocaleString()}</div>
                     <div className="text-xs text-white/30">+{t.points} 積分</div>
                     <div className="text-xs text-white/30 mt-0.5">截止 {t.deadline}</div>
-                    <button className="btn-primary mt-3 px-4 py-1.5 rounded-xl text-xs font-semibold">申請接案</button>
+                    <ActionButton className="btn-primary mt-3 px-4 py-1.5 rounded-xl text-xs font-semibold" toastMsg="（示範）已送出申請，稍後通知接案結果" doneLabel="已申請 ✓">申請接案</ActionButton>
                   </div>
                 </div>
               </div>

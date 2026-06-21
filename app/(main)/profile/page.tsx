@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ActionButton from "@/components/ActionButton";
 
 export default function ProfilePage() {
   return (
@@ -37,7 +38,7 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
-            <button className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.06] text-white/60 hover:text-white hover:bg-white/10 border border-white/10 transition-all flex-shrink-0">編輯主頁</button>
+            <ActionButton className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.06] text-white/60 hover:text-white hover:bg-white/10 border border-white/10 transition-all flex-shrink-0" toastMsg="（示範）主頁編輯功能即將開放" toastKind="info">編輯主頁</ActionButton>
           </div>
         </div>
       </div>
@@ -66,7 +67,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="flex gap-2">
                     <Link href="/training" className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.06] text-white/50 hover:text-white hover:bg-white/10 border border-white/10 transition-all">繼續訓練</Link>
-                    <button className="text-xs px-3 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 hover:bg-purple-600/40 transition-all">上架市場</button>
+                    <ActionButton className="text-xs px-3 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 hover:bg-purple-600/40 transition-all" href="/market" toastMsg="（示範）前往市場上架你的 Agent">上架市場</ActionButton>
                   </div>
                 </div>
               ))}
