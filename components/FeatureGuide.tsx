@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { GUIDES } from "@/lib/guides";
+import { getLang, toCN } from "@/lib/lang";
 
 export default function FeatureGuide() {
   const path = usePathname();
@@ -9,26 +10,33 @@ export default function FeatureGuide() {
   const [open, setOpen] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const [paused, setPaused] = useState(false);
-  const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
+  const voicesRef = useRef<SpeechSynthesisVoice[]>([]);
 
-  // 載入中文語音
+  // 載入中文語音清單
   useEffect(() => {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
-    const pick = () => {
-      const voices = window.speechSynthesis.getVoices();
-      voiceRef.current =
-        voices.find((v) => v.lang === "zh-TW") ||
-        voices.find((v) => v.lang === "zh-HK") ||
-        voices.find((v) => v.lang.startsWith("zh")) ||
-        voices[0] ||
-        null;
+    const load = () => {
+      voicesRef.current = window.speechSynthesis.getVoices();
     };
-    pick();
-    window.speechSynthesis.onvoiceschanged = pick;
+    load();
+    window.speechSynthesis.onvoiceschanged = load;
     return () => {
       window.speechSynthesis.onvoiceschanged = null;
     };
   }, []);
+
+  function pickVoice(cn: boolean) {
+    const v = voicesRef.current;
+    const want = cn ? ["zh-CN", "zh-SG", "zh"] : ["zh-TW", "zh-HK", "zh"];
+    // 優先挑「本機語音」（離線可靠），再退而求其次
+    for (const local of [true, false]) {
+      for (const prefix of want) {
+        const hit = v.find((x) => x.lang.startsWith(prefix) && x.localService === local);
+        if (hit) return hit;
+      }
+    }
+    return v.find((x) => x.lang.startsWith("zh")) || v[0] || null;
+  }
 
   // 關閉 / 換頁時停止語音
   useEffect(() => {
@@ -47,9 +55,12 @@ export default function FeatureGuide() {
   function play() {
     if (!guide || typeof window === "undefined" || !window.speechSynthesis) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(guide.voice);
-    if (voiceRef.current) u.voice = voiceRef.current;
-    u.lang = voiceRef.current?.lang || "zh-TW";
+    const cn = getLang() === "cn";
+    const text = cn ? toCN(guide.voice) : guide.voice;
+    const voice = pickVoice(cn);
+    const u = new SpeechSynthesisUtterance(text);
+    if (voice) u.voice = voice;
+    u.lang = voice?.lang || (cn ? "zh-CN" : "zh-TW");
     u.rate = 1.02;
     u.pitch = 1.0;
     u.onend = () => {

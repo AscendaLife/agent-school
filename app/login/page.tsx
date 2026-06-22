@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import LangToggle from "@/components/LangToggle";
 
 function LoginForm() {
   const router = useRouter();
@@ -37,6 +38,9 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="absolute top-5 right-5">
+        <LangToggle />
+      </div>
       <div className="w-full max-w-sm animate-fade-up">
         {/* Logo */}
         <div className="text-center mb-8">

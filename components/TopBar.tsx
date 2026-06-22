@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import FeatureGuide from "@/components/FeatureGuide";
+import LangToggle from "@/components/LangToggle";
 
 export default function TopBar() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function TopBar() {
       </div>
 
       <div className="flex items-center gap-3">
+        <LangToggle />
         <FeatureGuide />
         <Link
           href="/cert"
